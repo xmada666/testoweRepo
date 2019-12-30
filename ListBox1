@@ -1,0 +1,82 @@
+Option Explicit
+Private selectedRow As Long
+Private handler As New clsEventHandler
+Private col As New Collection
+
+Private Sub UserForm_Initialize()
+    Dim i As Long
+    With ThisWorkbook.Sheets(1)
+        ListBox1.ColumnCount = .Cells(5, Columns.Count).End(xlToLeft).Column
+        ListBox1.RowSource = .ListObjects("Tabela1")
+        For i = 1 To ThisWorkbook.Sheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+            Me.Controls("Label" & i).Caption = ThisWorkbook.Sheets(1).Cells(1, i)
+        Next i
+        ListBox1.Selected(0) = True
+    End With
+    
+    Dim ctrl As Object
+    
+    For Each ctrl In Me.Controls
+        If ctrl.Name Like "Dane*" Then
+            i = CLng(Replace(ctrl.Name, "Dane", ""))
+            Set handler = New clsEventHandler
+            Set handler.ctrl = ctrl
+            Set handler.uForm = Me
+            handler.EventChange = "ControlChange"
+            col.Add handler
+        End If
+    Next
+End Sub
+
+Public Sub ControlChange(ByRef ctrl As Object)
+    Dim i As Long
+    i = CLng(Replace(ctrl.Name, "Dane", ""))
+    ThisWorkbook.Sheets(1).Cells(selectedRow, i).Value = ctrl.Text
+End Sub
+
+Private Sub cmdNew_Click()
+    Dim tbl As ListObject
+    ListBox1.RowSource = ""
+    Set tbl = ThisWorkbook.Sheets(1).ListObjects("Tabela1")
+    With tbl.Range
+        tbl.Resize .Resize(tbl.ListRows.Count + 2)
+    End With
+    ListBox1.RowSource = ThisWorkbook.Sheets(1).ListObjects("Tabela1")
+    ListBox1.Selected(ListBox1.ListCount - 1) = True
+End Sub
+
+Private Sub cmdRemove_Click()
+    ListBox1.RowSource = ""
+    ThisWorkbook.Sheets(1).ListObjects("Tabela1").ListRows(selectedRow - 1).Delete
+    ListBox1.RowSource = ThisWorkbook.Sheets(1).ListObjects("Tabela1")
+    If selectedRow - 2 >= ListBox1.ListCount Then
+        ListBox1.Selected(ListBox1.ListCount - 1) = True
+    Else
+        ListBox1.Selected(selectedRow - 2) = True
+    End If
+End Sub
+
+Private Sub tglExcel_Click()
+    Application.Visible = Not tglExcel.Value
+    If Application.Visible Then
+        tglExcel.Caption = "Excel - visible"
+    Else
+        tglExcel.Caption = "Excel - hidden"
+    End If
+End Sub
+
+Private Sub ListBox1_Click()
+    If ListBox1.Enabled Then
+        ListBox1.Enabled = False
+        selectedRow = ListBox1.ListIndex + 2
+        DisplayData
+        ListBox1.Enabled = True
+    End If
+End Sub
+
+Private Sub DisplayData()
+    Dim i As Long
+    For i = 1 To ThisWorkbook.Sheets(1).Cells(1, Columns.Count).End(xlToLeft).Column
+        Me.Controls("Dane" & i).Text = ThisWorkbook.Sheets(1).Cells(selectedRow, i)
+    Next i
+End Sub
