@@ -1,0 +1,129 @@
+Option Explicit
+
+Public uForm As Object
+
+Public EventChange As String
+Public EventClick As String
+Public EventMouseMove As String
+Public EventMouseUp As String
+
+Private mvarKontrolka As Object
+
+Private WithEvents mvarTextBox As MSForms.TextBox
+Private WithEvents mvarComboBox As MSForms.ComboBox
+Private WithEvents mvarLabel As MSForms.Label
+Private WithEvents mvarOptionButton As MSForms.OptionButton
+Private WithEvents mvarCheckBox As MSForms.CheckBox
+Private WithEvents mvarCommandButton As MSForms.CommandButton
+
+
+Public Property Set ctrl(ByRef Kontrolka As Object)
+    Set mvarKontrolka = Kontrolka
+    Select Case TypeName(Kontrolka)
+        Case "TextBox"
+            Set mvarTextBox = Kontrolka
+        Case "ComboBox"
+            Set mvarComboBox = Kontrolka
+        Case "OptionButton"
+            Set mvarOptionButton = Kontrolka
+        Case "Label"
+            Set mvarLabel = Kontrolka
+        Case "CheckBox"
+            Set mvarCheckBox = Kontrolka
+        Case "CommandButton"
+            Set mvarCommandButton = Kontrolka
+    End Select
+End Property
+
+Public Property Get ctrl() As Object
+    Set ctrl = mvarKontrolka
+End Property
+
+Public Property Get Name() As String
+    Name = mvarKontrolka.Name
+End Property
+
+Private Sub mvarTextBox_Change()
+    If EventChange <> Empty Then CallByName uForm, EventChange, VbMethod, mvarTextBox
+End Sub
+
+Private Sub mvarCheckBox_Change()
+    If EventChange <> Empty Then CallByName uForm, EventChange, VbMethod, mvarCheckBox
+End Sub
+
+Private Sub mvarOptionButton_Change()
+    If EventChange <> Empty Then CallByName uForm, EventChange, VbMethod, mvarOptionButton
+End Sub
+
+Private Sub mvarComboBox_Change()
+    If EventChange <> Empty Then CallByName uForm, EventChange, VbMethod, mvarComboBox
+End Sub
+
+Private Sub mvarTextBox_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarTextBox, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarCheckBox_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarCheckBox, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarCommandButton_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarCommandButton, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarLabel_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarLabel, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarOptionButton_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarOptionButton, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarComboBox_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseMove <> Empty Then CallByName uForm, EventMouseMove, VbMethod, mvarComboBox, Array(Button, Shift, X, Y)
+End Sub
+
+Private Sub mvarCheckBox_Click()
+    If EventClick <> Empty Then CallByName uForm, EventClick, VbMethod, mvarCheckBox
+End Sub
+
+Private Sub mvarCommandButton_Click()
+    If EventClick <> Empty Then CallByName uForm, EventClick, VbMethod, mvarCommandButton
+End Sub
+
+Private Sub mvarLabel_Click()
+    If EventClick <> Empty Then CallByName uForm, EventClick, VbMethod, mvarLabel
+End Sub
+
+Private Sub mvarOptionButton_Click()
+    If EventClick <> Empty Then CallByName uForm, EventClick, VbMethod, mvarOptionButton
+End Sub
+
+Private Sub mvarComboBox_Click()
+    If EventClick <> Empty Then CallByName uForm, EventClick, VbMethod, mvarComboBox
+End Sub
+
+Private Sub mvarTextBox_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarTextBox
+End Sub
+
+Private Sub mvarCommandButton_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarCommandButton
+End Sub
+
+Private Sub mvarLabel_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarLabel
+End Sub
+
+Private Sub mvarOptionButton_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarOptionButton
+End Sub
+
+Private Sub mvarCheckBox_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarCheckBox
+End Sub
+
+Private Sub mvarComboBox_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If EventMouseUp <> Empty Then CallByName uForm, EventMouseUp, VbMethod, mvarComboBox
+End Sub
+
